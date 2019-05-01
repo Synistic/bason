@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Corputy</title>
-</head>
-<?php echo $data['test']; ?>
-<body>
-</body>
+	<head>
+		<title>Adminboard</title>
+	</head>
+	<body>
+	</body>
 </html>

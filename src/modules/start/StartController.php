@@ -1,15 +1,13 @@
 <?php
 
 class StartController extends Application {
-	private $db;
 
 	function __construct() {
-		$this->db = $this->dbConnect();
-
 		$module = $this->getModule();
-
+		$model = $this->loadModel($module);
 		$data = array();
-		$data['test'] = 1;
 		$this->loadView($module, $data);
+		print_r($model->test());
 	}
+
 }

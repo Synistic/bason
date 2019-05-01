@@ -1,10 +1,6 @@
 <?php
 
 class Application {
-	private $DB_HOST = 'localhost';
-	private $DB_NAME = 'corputy';
-	private $DB_USER = 'admin';
-	private $DB_PASS = '=r9i<=$(d7yF*553p*Q+';
 
 	protected $module;
 	protected $controller;
@@ -21,7 +17,7 @@ class Application {
 		}
 	}
 
-	public function getModule() {
+	protected function getModule() {
 		try {
 			$url = $this->parseUrl();
 			if($url[0]) {
@@ -42,15 +38,17 @@ class Application {
 		}
 	}
 
-	public function parseUrl() {
+
+	protected function parseUrl() {
 		if (isset($_GET['url'])) {
 			return $url = explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL));
 		}
 	}
 
-	public function dbConnect() {
+	protected function dbConnect() {
 		try {
-			$db_connection = new PDO("mysql:host={$this->DB_HOST}; dbname={$this->DB_NAME}", $this->DB_USER, $this->DB_PASS);
+			$dbconfig = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/../src/config/database.ini');
+			$db_connection = new PDO("mysql:host={$dbconfig['db_host']}; dbname={$dbconfig['db_name']}", $dbconfig['db_user'], $dbconfig['db_pass']);
 			$db_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$db_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 			return $db_connection;
@@ -59,14 +57,15 @@ class Application {
 		}
 	}
 
-	public function loadModel($module) {
+	protected function loadModel($module) {
 		$module_path = $_SERVER['DOCUMENT_ROOT'] . '/../src/modules/' . $module['module_name'];
 		$this->model = require_once $module_path . '/' . $module['module_model'] . '.php';
-		return new $this->model();
+		return new $module['module_model'];
 	}
 
-	public function loadView($module, $data = []) {
+	protected function loadView($module, $data = []) {
 		$module_path = $_SERVER['DOCUMENT_ROOT'] . '/../src/modules/' . $module['module_name'];
 		require_once $module_path . '/' . $module['module_view'] . '.php';
 	}
+
 }
