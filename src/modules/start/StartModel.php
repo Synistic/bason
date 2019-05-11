@@ -7,5 +7,4 @@ class StartModel extends Application {
 	function __construct() {
 		$this->db = $this->dbConnect();
 	}
-
 }

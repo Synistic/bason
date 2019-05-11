@@ -1,6 +1,8 @@
 <?php
 
-class Application {
+require_once $_SERVER['DOCUMENT_ROOT'] . '/src/helpers/Database.php';
+
+class Application extends Database {
 
 	protected $module;
 	protected $controller;
@@ -9,7 +11,7 @@ class Application {
 	function __construct() {
 		$this->module = $this->getModule();
 		if($this->module) {
-			$module_path = $_SERVER['DOCUMENT_ROOT'] . '/../src/modules/' . $this->module['module_name'];
+			$module_path = $_SERVER['DOCUMENT_ROOT'] . '/src/modules/' . $this->module['module_name'];
 			require_once $module_path . '/' . $this->module['module_controller'] . '.php';
 			$this->controller = new $this->module['module_controller'];
 		} else {
@@ -45,26 +47,14 @@ class Application {
 		}
 	}
 
-	protected function dbConnect() {
-		try {
-			$dbconfig = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/../src/config/database.ini');
-			$db_connection = new PDO("mysql:host={$dbconfig['db_host']}; dbname={$dbconfig['db_name']}", $dbconfig['db_user'], $dbconfig['db_pass']);
-			$db_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$db_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-			return $db_connection;
-		} catch(PDOException $e) {
-			echo $e->getMessage();
-		}
-	}
-
 	protected function loadModel($module) {
-		$module_path = $_SERVER['DOCUMENT_ROOT'] . '/../src/modules/' . $module['module_name'];
+		$module_path = $_SERVER['DOCUMENT_ROOT'] . '/src/modules/' . $module['module_name'];
 		$this->model = require_once $module_path . '/' . $module['module_model'] . '.php';
 		return new $module['module_model'];
 	}
 
 	protected function loadView($module, $data = []) {
-		$module_path = $_SERVER['DOCUMENT_ROOT'] . '/../src/modules/' . $module['module_name'];
+		$module_path = $_SERVER['DOCUMENT_ROOT'] . '/src/modules/' . $module['module_name'];
 		require_once $module_path . '/' . $module['module_view'] . '.php';
 	}
 

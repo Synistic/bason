@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Adminboard</title>
+		<title>Corputy</title>
 	</head>
 	<body>
 	</body>
