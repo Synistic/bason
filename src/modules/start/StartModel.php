@@ -7,11 +7,4 @@ class StartModel extends Application {
 	function __construct() {
 		$this->db = $this->dbConnect();
 	}
-
-	public function test() {
-		$stmt = $this->db->prepare("SELECT * FROM modules");
-		$stmt->execute();
-		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-		return $row;
-	}
 }
