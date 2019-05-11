@@ -1,6 +1,8 @@
 <?php
 
-class AdminboardModel extends Application {
+require_once $_SERVER['DOCUMENT_ROOT'] . '/src/helpers/Database.php';
+
+class AdminboardModel extends Database {
 
 	private $db;
 
